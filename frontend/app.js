@@ -42,16 +42,16 @@ class TapeTaupeGame {
 
     updateTimer() {
         this.timerElement.textContent = 'Temps restant : ' + this.remainingTime + ' secondes';
+
+        if (this.remainingTime <= 0) {
+            this.endGame();
+        }
     }
 
     setupTimer() {
         this.timerInterval = setInterval(() => {
             this.remainingTime--;
             this.updateTimer();
-
-            if (this.remainingTime <= 0) {
-                this.endGame();
-            }
         }, 1000);
     }
 
@@ -93,6 +93,8 @@ class TapeTaupeGame {
     }
 
     endGame() {
+        clearInterval(this.timerInterval);
+
         this.circles.forEach(circle => {
             circle.removeEventListener('click', () => this.handleCircleClick(circle));
         });
@@ -107,7 +109,38 @@ class TapeTaupeGame {
         const finalScoreElement = document.querySelector('.final-score');
         finalScoreElement.textContent = 'Score final : ' + this.score;
     }
+
+    resetGame() {
+        // Réinitialiser les valeurs du jeu
+        this.score = 0;
+        this.remainingTime = 60;
+        this.minDelay = 3000;
+        this.maxDelay = 6000;
+        this.timeoutIds = [];
+
+        // Réinitialiser l'affichage du score et du temps
+        this.updateScore();
+        this.updateTimer();
+
+        // Réinitialiser les cercles
+        this.circles.forEach(circle => {
+            circle.classList.remove('red', 'blue');
+        });
+
+        // Réinitialiser les événements de clic sur les cercles
+        this.setupCircles();
+
+        // Redémarrer le timer et les délais
+        this.setupTimer();
+        this.startDecreasingDelays();
+    }
+}
+
+function playagain() {
+    const gameOverPopup = document.querySelector('.game-over-popup');
+    gameOverPopup.style.display = 'none';
+    tapeTaupeGame.resetGame();
 }
 
 // Instancier le jeu
-const coloredCircleGame = new TapeTaupeGame();
+const tapeTaupeGame = new TapeTaupeGame();
