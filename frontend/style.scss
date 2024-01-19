@@ -20,7 +20,8 @@ body {
 }
 
 .table {
-    border: 2px solid white;
+    background-image: url(https://img.freepik.com/free-vector/brown-soil-texture-background_1308-20483.jpg?size=626&ext=jpg&ga=GA1.1.632798143.1705622400&semt=ais);
+    border-radius: 50px;
     width: 80%;
     height: 500px;
     padding: 10px;
@@ -28,13 +29,14 @@ body {
     justify-items: center;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
+    transform: rotate3d(1, 0, 0, 30deg);
+    transform-style: preserve-3d;
 
     .circle {
         width: 100px;
-        height: 100px;
+        height: 80px;
         border-radius: 50%;
-        border: 2px solid white;
-        background: black;
+        background: #35170b;
         /* Aligner le cercle au centre de sa case */
         display: flex;
         align-items: center;
@@ -53,7 +55,7 @@ body {
     background: blue !important;
 }
 
-.timer-text {
+.timer-text, .score-text {
     color: white;
     font-size: 18px;
     margin: 0;
@@ -76,4 +78,21 @@ body {
 
 .final-score {
     margin: 0;
+}
+
+.timer{
+    border: 1px solid white;
+    overflow: hidden;
+    width: 50px;
+    border-radius: 50px;
+    height: 300px;
+    position: relative;
+}
+
+.timer-content{
+    bottom: 0;
+    position:absolute;
+    height: 300px;
+    width: 50px;
+    background: red;
 }
