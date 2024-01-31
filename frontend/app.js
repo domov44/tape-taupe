@@ -7,6 +7,7 @@ class TapeTaupeGame {
         this.timeoutIds = [];
         this.circles = document.querySelectorAll('.taupe');
         this.timerElement = document.querySelector('.timer-text');
+        this.soundEnabled = true;
         this.init();
     }
 
@@ -14,6 +15,7 @@ class TapeTaupeGame {
         this.setupTimer();
         this.setupCircles();
         this.startDecreasingDelays();
+        this.setupSoundToggleButton();
     }
 
     getRandomDelay(min, max) {
@@ -81,6 +83,30 @@ class TapeTaupeGame {
     }
 
     handleCircleClick(circle) {
+        if (this.soundEnabled) {
+            const context = new AudioContext();
+            const request = new XMLHttpRequest();
+
+            if (circle.classList.contains('red')) {
+                request.open('GET', './sounds/hit_taupe.mp3', true);
+            } else if (circle.classList.contains('blue')) {
+                request.open('GET', './sounds/hit_metal.mp3', true);
+            }
+
+            request.responseType = 'arraybuffer';
+
+            request.onload = () => {
+                context.decodeAudioData(request.response, (buffer) => {
+                    const source = context.createBufferSource();
+                    source.buffer = buffer;
+                    source.connect(context.destination);
+                    source.start(0);
+                });
+            };
+
+            request.send();
+        }
+
         if (circle.classList.contains('red')) {
             circle.classList.remove('red');
             this.score += 10;
@@ -90,6 +116,21 @@ class TapeTaupeGame {
         }
 
         this.updateScore();
+    }
+
+    setupSoundToggleButton() {
+        const toggleSoundButton = document.getElementById('toggleSoundButton');
+
+        toggleSoundButton.addEventListener('click', () => {
+            this.toggleSound();
+        });
+    }
+
+    toggleSound() {
+        this.soundEnabled = !this.soundEnabled;
+
+        const toggleSoundButton = document.getElementById('toggleSoundButton');
+        toggleSoundButton.textContent = this.soundEnabled ? 'Désactiver le son' : 'Activer le son';
     }
 
     endGame() {
