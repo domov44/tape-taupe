@@ -7,10 +7,14 @@ class SoundManager {
     }
 
     init() {
-        this.createAudioContext();
+        document.addEventListener('click', async () => {
+            if (!this.audioContext) {
+                await this.createAudioContext();
+            }
+        });
     }
 
-    createAudioContext() {
+    async createAudioContext() {
         if (!this.audioContext) {
             this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
             this.gainNode = this.audioContext.createGain();
@@ -35,8 +39,10 @@ class SoundManager {
 
             request.onload = async () => {
                 try {
-                    if (this.audioContext.state === 'suspended') {
+                    if (this.audioContext && this.audioContext.state === 'suspended') {
                         await this.audioContext.resume();
+                    } else {
+                        await this.createAudioContext();
                     }
 
                     const buffer = await this.audioContext.decodeAudioData(request.response);
@@ -51,7 +57,7 @@ class SoundManager {
     }
 
     async playSound(circle) {
-        if (this.game.soundEnabled && this.audioContext) {
+        if (this.game.soundEnabled) {
             try {
                 let soundUrl = '';
                 if (circle.classList.contains('red')) {
@@ -62,8 +68,10 @@ class SoundManager {
 
                 const buffer = await this.loadSound(soundUrl);
 
-                if (this.audioContext.state === 'suspended') {
+                if (this.audioContext && this.audioContext.state === 'suspended') {
                     await this.audioContext.resume();
+                } else {
+                    await this.createAudioContext();
                 }
 
                 const source = this.audioContext.createBufferSource();
@@ -79,9 +87,9 @@ class SoundManager {
     toggleSound() {
         this.game.soundEnabled = !this.game.soundEnabled;
 
-        if (this.game.soundEnabled) {
+        if (this.game.soundEnabled && !this.audioContext) {
             this.createAudioContext();
-        } else {
+        } else if (!this.game.soundEnabled && this.audioContext) {
             this.closeAudioContext();
         }
 
