@@ -5,7 +5,7 @@ class TapeTaupeGame {
         this.minDelay = 3000;
         this.maxDelay = 6000;
         this.timeoutIds = [];
-        this.circles = document.querySelectorAll('.circle');
+        this.circles = document.querySelectorAll('.taupe');
         this.timerElement = document.querySelector('.timer-text');
         this.init();
     }

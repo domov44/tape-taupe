@@ -33,35 +33,51 @@ body {
     transform-style: preserve-3d;
 
     .circle {
-        width: 100px;
-        height: 80px;
         border-radius: 50%;
+        width: 100px;
+        height: 2px;
+        outline: thick solid #35170b;
         background: #35170b;
-        /* Aligner le cercle au centre de sa case */
+        color: #fff;
+        transform-style: preserve-3d;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 }
 
+.taupe{
+    display: none;
+}
+
 /* Ajoutez cette classe pour changer l'arrière-plan en rouge */
 .red {
-    background: red !important;
+    display: block;
+    border-radius: 50px;
+    width: 100px;
+    height: 180px;
+    background-color: #ffba08;
+    color: #000;
+    animation: moveThroughRing 2s ease-in-out forwards;
 }
 
-
-/* Ajoutez cette classe pour changer l'arrière-plan en rouge */
 .blue {
-    background: blue !important;
+    display: block;
+    border-radius: 50px;
+    width: 100px;
+    height: 180px;
+    background-color: #08ff52;
+    color: #000;
+    animation: moveThroughRing 2s infinite linear;
 }
 
-.timer-text, .score-text {
+.timer-text,
+.score-text {
     color: white;
     font-size: 18px;
     margin: 0;
 }
 
-/* Ajoutez ceci à votre fichier CSS */
 .game-over-popup {
     display: none;
     position: fixed;
@@ -73,14 +89,14 @@ body {
     color: white;
     font-size: 24px;
     text-align: center;
-    padding-top: 50vh; /* Ajustez selon vos besoins */
+    padding-top: 50vh;
 }
 
 .final-score {
     margin: 0;
 }
 
-.timer{
+.timer {
     border: 1px solid white;
     overflow: hidden;
     width: 50px;
@@ -89,10 +105,22 @@ body {
     position: relative;
 }
 
-.timer-content{
+.timer-content {
     bottom: 0;
-    position:absolute;
+    position: absolute;
     height: 300px;
     width: 50px;
     background: red;
+}
+
+@keyframes moveThroughRing {
+    0%, 100% {
+        transform: rotate3d(-1,0,-1,1deg) translateY(150px);
+        height: 0px;
+    }
+
+    50% {
+        transform: rotate3d(-1,0,-1,1deg) translateY(-40px);
+        height: 180px;
+    }
 }
