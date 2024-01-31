@@ -20,13 +20,14 @@ body {
 }
 
 .table {
-    background-image: url(https://img.freepik.com/free-vector/brown-soil-texture-background_1308-20483.jpg?size=626&ext=jpg&ga=GA1.1.632798143.1705622400&semt=ais);
+    background:#00fd42;
     border-radius: 50px;
     width: 80%;
     height: 500px;
     padding: 10px;
     display: grid;
     justify-items: center;
+    align-items: center;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     transform: rotate3d(1, 0, 0, 30deg);
@@ -52,19 +53,19 @@ body {
     animation: moveThroughRing 2s ease-in-out forwards;
     cursor: pointer;
     border-radius: 50px 50px 0px 0px;
-    width: 100px;
+    width: 80px;
     height: 100px;
 }
 
 /* Ajoutez cette classe pour changer l'arrière-plan en rouge */
 .red {
     display: block;
-    background-color: #ffba08;
+    background-color: #b76830;
 }
 
 .blue {
     display: block;
-    background-color: #08ff52;
+    background-color: #ff6b01;
 }
 
 .timer-text,
@@ -111,7 +112,7 @@ body {
 
 @keyframes moveThroughRing {
     0%, 100% {
-        transform: rotate3d(-1,0,-1,1deg) translateY(150px);
+        transform: rotate3d(-1,0,-1,1deg) translateY(40px);
         height: 0px;
         display: none;
     }
