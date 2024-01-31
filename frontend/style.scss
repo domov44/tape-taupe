@@ -48,27 +48,23 @@ body {
 
 .taupe{
     display: none;
+    color: #000;
+    animation: moveThroughRing 2s ease-in-out forwards;
+    cursor: pointer;
+    border-radius: 50px 50px 0px 0px;
+    width: 100px;
+    height: 100px;
 }
 
 /* Ajoutez cette classe pour changer l'arrière-plan en rouge */
 .red {
     display: block;
-    border-radius: 50px;
-    width: 100px;
-    height: 180px;
     background-color: #ffba08;
-    color: #000;
-    animation: moveThroughRing 2s ease-in-out forwards;
 }
 
 .blue {
     display: block;
-    border-radius: 50px;
-    width: 100px;
-    height: 180px;
     background-color: #08ff52;
-    color: #000;
-    animation: moveThroughRing 2s infinite linear;
 }
 
 .timer-text,
@@ -117,10 +113,12 @@ body {
     0%, 100% {
         transform: rotate3d(-1,0,-1,1deg) translateY(150px);
         height: 0px;
+        display: none;
     }
 
     50% {
         transform: rotate3d(-1,0,-1,1deg) translateY(-40px);
-        height: 180px;
+        height: 100px;
+        display: block;
     }
 }
