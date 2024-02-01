@@ -1,6 +1,7 @@
 body {
-    background: black;
+    background: linear-gradient(#33D0D9, #e0fdff);
     margin: 0;
+    overflow: hidden;
 
 }
 
@@ -21,6 +22,7 @@ body {
     height: 100vh;
     width: 100vw;
     gap: 30px;
+    perspective: 500px;
 }
 
 .score {
@@ -30,27 +32,25 @@ body {
 }
 
 .table {
-    background: #00fd42;
-    border-radius: 50px;
+    background-image: url(./static/decors/grass.webp);
+    border-radius: 50% 50% 50px 50px;
     width: 80%;
-    height: 500px;
-    padding: 10px;
+    height: 600px;
+    padding: 50px;
     display: grid;
     justify-items: center;
     align-items: center;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    transform: rotate3d(1, 0, 0, 30deg);
+    transform: rotateX(30deg);
     transform-style: preserve-3d;
+    position: relative;
     cursor: none;
 
     .circle {
         border-radius: 50%;
         width: 100px;
         height: 2px;
-        border: solid #35170b 7px;
-        background: #35170b;
-        color: #fff;
         transform-style: preserve-3d;
         display: flex;
         align-items: center;
@@ -65,6 +65,7 @@ body {
     border-radius: 50px 50px 0px 0px;
     width: 80px;
     height: 100px;
+    perspective: none;
 }
 
 /* Ajoutez cette classe pour changer l'arrière-plan en rouge */
@@ -124,13 +125,13 @@ body {
 
     0%,
     100% {
-        transform: rotate3d(-1, 0, -1, 1deg) translateY(40px);
+        transform: rotate3d(-1, 0, -1, 1deg) rotateX(-30deg) translateY(40px);
         height: 0px;
         display: none;
     }
 
     50% {
-        transform: rotate3d(-1, 0, -1, 1deg) translateY(-40px);
+        transform: rotate3d(-1, 0, -1, 1deg) rotateX(-30deg) translateY(-40px);
         height: 100px;
         display: block;
     }
@@ -152,10 +153,10 @@ body {
 .score-points {
     position: absolute;
     top: -10px;
-    right:-10px;
+    right: -10px;
     border-radius: 50px;
     padding: 5px 8px;
-    font-size: 20px; 
+    font-size: 20px;
     font-weight: bold;
     transition: opacity 1s ease;
 }
@@ -170,4 +171,20 @@ body {
     color: rgb(255, 79, 79);
 }
 
+.ground-img {
+    width: 180px;
+    position: absolute;
+    top: -15px;
+    transform: translateZ(13px);
+    perspective: none;
+}
 
+.circle {
+    &:nth-of-type(3n+1) .ground-img {
+        transform: translateZ(13px) translateX(10px);
+    }
+
+    &:nth-of-type(3n+3) .ground-img {
+        transform: translateZ(13px) translateX(-10px);
+    }
+}

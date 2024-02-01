@@ -3,7 +3,7 @@ import SoundManager from './SoundManager.js';
 class Game {
     constructor() {
         this.score = 0;
-        this.remainingTime = 10;
+        this.remainingTime = 60;
         this.minDelay = 3000;
         this.maxDelay = 6000;
         this.timeoutIds = [];
