@@ -4,6 +4,15 @@ body {
   margin: 0;
 }
 
+#cursor {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 0.1s;
+}
+
 .game-area {
   display: flex;
   flex-direction: column;
@@ -33,6 +42,7 @@ body {
   grid-template-rows: repeat(3, 1fr);
   transform: rotate3d(1, 0, 0, 30deg);
   transform-style: preserve-3d;
+  cursor: none;
 }
 .table .circle {
   border-radius: 50%;
@@ -51,7 +61,6 @@ body {
   display: none;
   color: #000;
   animation: moveThroughRing 2s ease-in-out forwards;
-  cursor: pointer;
   border-radius: 50px 50px 0px 0px;
   width: 80px;
   height: 100px;
@@ -121,4 +130,37 @@ body {
     height: 100px;
     display: block;
   }
+}
+.rotate-animation {
+  transform: rotate(45deg);
+}
+
+.button {
+  background: rgb(255, 174, 0);
+  color: black;
+  padding: 8px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.score-points {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  border-radius: 50px;
+  padding: 5px 8px;
+  font-size: 20px;
+  font-weight: bold;
+  transition: opacity 1s ease;
+}
+
+.positive-points {
+  background: rgb(47, 54, 51);
+  color: rgb(0, 255, 132);
+}
+
+.negative-points {
+  background: rgb(54, 47, 47);
+  color: rgb(255, 79, 79);
 }/*# sourceMappingURL=style.css.map */

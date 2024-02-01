@@ -13,7 +13,7 @@
         <div class="score">
             <h1 class="score-text">Votre score : 0</h1>
             <p class="timer-text">Temps restant : 60 secondes</p>
-            <button id="toggleSoundButton">Désactiver le son</button>
+            <button class="button" id="toggleSoundButton">Désactiver le son</button>
         </div>
         <div class="table">
             <div class="circle" id="circle1">
@@ -50,8 +50,26 @@
     </div>
     <div class="game-over-popup">
         <p class="final-score"></p>
-        <button id="playAgainButton" class="replay-button">Rejouer</button>
+        <button id="playAgainButton" class="button">Rejouer</button>
     </div>
+    <svg id="cursor" xmlns="http://www.w3.org/2000/svg">
+        <path d="m18.37 20.13h8v39c0 2.21-1.79 4-4 4-2.21 0-4-1.79-4-4z" fill="#663d24"
+            transform="matrix(.707 .707 -.707 .707 35.99 -3.63)" />
+        <path d="m19.12 33.79h8v14h-8z" fill="#7c5039" transform="matrix(.707 .707 -.707 .707 35.62 -4.4)" />
+        <path d="m31.67 24.25h2c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2h-2z" fill="#0b4f6c"
+            transform="matrix(-.707 .707 -.707 -.707 78.86 27.83)" />
+        <path d="m47.27 9.73h2c1.1 0 2 .9 2 2v6c0 1.1-.9 2-2 2h-2z" fill="#0b4f6c"
+            transform="matrix(.707 -.707 .707 .707 4.01 39.15)" />
+        <path
+            d="m57.71 27.42-11.32 11.31c-.39.39-1.02.39-1.41 0l-19.71-19.71c-.39-.39-.39-1.02 0-1.41l11.31-11.32c.39-.39 1.02-.39 1.42 0l19.71 19.71c.39.4.39 1.03 0 1.42z"
+            fill="#1a6d89" />
+        <g fill="#0b4f6c">
+            <path d="m41.64 29.66h18v3c0 .55-.45 1-1 1h-16c-.55 0-1-.45-1-1z"
+                transform="matrix(.707 -.707 .707 .707 -7.56 45.08)" />
+            <path d="m24.34 11.36h16c.55 0 1 .45 1 1v3h-18v-3c0-.55.45-1 1-1z"
+                transform="matrix(.707 -.707 .707 .707 .02 26.78)" />
+        </g>
+    </svg>
 </body>
 <script type="module" src="class/SoundManager.js"></script>
 <script type="module" src="class/Game.js"></script>

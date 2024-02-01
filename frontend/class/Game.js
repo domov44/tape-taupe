@@ -3,7 +3,7 @@ import SoundManager from './SoundManager.js';
 class Game {
     constructor() {
         this.score = 0;
-        this.remainingTime = 60;
+        this.remainingTime = 10;
         this.minDelay = 3000;
         this.maxDelay = 6000;
         this.timeoutIds = [];
@@ -87,17 +87,41 @@ class Game {
             const soundManager = new SoundManager(this);
             soundManager.playSound(circle);
         }
-
+    
+        let points = 0;
+    
         if (circle.classList.contains('red')) {
             circle.classList.remove('red');
-            this.score += 10;
+            points = 10;
         } else if (circle.classList.contains('blue')) {
             circle.classList.remove('blue');
-            this.score = Math.max(0, this.score - 10);
+            points = -10;
         }
-
+    
+        this.score += points;
         this.updateScore();
+    
+        if (points !== 0) {
+            const pointsElement = document.createElement('span');
+            pointsElement.innerHTML = (points >= 0 ? '+' : '') + points;
+    
+            pointsElement.classList.add('score-points');
+    
+            if (points > 0) {
+                pointsElement.classList.add('positive-points');
+            } else if (points < 0) {
+                pointsElement.classList.add('negative-points');
+            }
+    
+            circle.appendChild(pointsElement);
+    
+            setTimeout(() => {
+                pointsElement.remove();
+            }, 1000);
+        }
     }
+    
+    
 
     endGame() {
         clearInterval(this.timerInterval);

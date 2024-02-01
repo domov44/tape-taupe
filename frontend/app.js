@@ -17,3 +17,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const playAgainButton = document.getElementById('playAgainButton');
     playAgainButton.addEventListener('click', () => tapeTaupeGame.resetGame());
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var cursor = document.getElementById('cursor');
+    var cursorSize = 80;
+    var tableDiv = document.querySelector('.table');
+
+    if (tableDiv) {
+        tableDiv.addEventListener('mouseover', function () {
+            cursor.style.display = 'block';
+            document.addEventListener('mousemove', updateCursorPosition);
+        });
+
+        tableDiv.addEventListener('mouseout', function () {
+            cursor.style.display = 'none';
+            document.removeEventListener('mousemove', updateCursorPosition);
+        });
+    }
+
+    document.addEventListener('click', function () {
+        cursor.classList.add('rotate-animation');
+
+        setTimeout(function () {
+            cursor.classList.remove('rotate-animation');
+        }, 100);
+    });
+
+    function updateCursorPosition(e) {
+        var x = e.clientX;
+        var y = e.clientY;
+
+        cursor.style.left = x - cursorSize / 2 + 'px';
+        cursor.style.top = y - cursorSize / 2 + 'px';
+    }
+});
