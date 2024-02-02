@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affichage des Données</title>
+</head>
+<body>
+    <h1>Données de l'API</h1>
+    <ul id="dataList"></ul>
+
+    <script>
+        fetch('https://tape-taupe-backend.vercel.app/data')
+            .then(response => response.json())
+            .then(data => {
+                const dataList = document.getElementById('dataList');
+                data.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = JSON.stringify(item);
+                    dataList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Erreur lors de la récupération des données:', error));
+    </script>
+</body>
+</html>
