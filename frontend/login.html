@@ -5,36 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        input {
-            margin-bottom: 10px;
-            padding: 8px;
-        }
-
-        button {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
 </head>
 
 <body>
@@ -45,7 +15,7 @@
         <input type="email" id="email" name="email" required>
         <label for="password">Mot de passe:</label>
         <input type="password" id="password" name="password" required>
-        <button type="button" onclick="login()">Se connecter avec Email</button>
+        <button type="button" onclick="login()">Se connecter</button>
     </form>
 
     <script>
@@ -68,12 +38,19 @@
                     alert('Connexion réussie');
                     console.log('Utilisateur connecté:', data);
                 } else {
-                    alert('Échec de la connexion: ' + data.message);
-                    console.error('Erreur lors de la connexion:', data);
+                    if (data.error) { // Vérifiez si la clé 'error' est présente dans la réponse JSON
+                        alert('Échec de la connexion: ' + data.error);
+                        console.error('Erreur lors de la connexion:', data.error);
+                    } else {
+                        alert('Échec de la connexion');
+                        console.error('Erreur lors de la connexion:', data);
+                    }
                 }
+
             } catch (error) {
-                console.error('Erreur lors de la connexion:', error);
-                alert('Erreur serveur');
+                console.error('Erreur lors de la connexion utilisateur', error);
+                alert('Échec de la connexion: ' + error.error);
+                console.error('Détails de l\'erreur:', error.details);
             }
         }
 
