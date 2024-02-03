@@ -1,5 +1,19 @@
 import SoundManager from './SoundManager.js';
 
+
+function shuffle(array) {
+    let currentIndex = array.length, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
+}
+
 class Game {
     constructor() {
         this.score = 0;
@@ -15,7 +29,6 @@ class Game {
     init() {
         this.setupTimer();
         this.setupCircles();
-        this.startDecreasingDelays();
     }
 
     getRandomDelay(min, max) {
@@ -29,13 +42,15 @@ class Game {
         circle.classList.add(colorClass);
 
         const timeoutId = setTimeout(() => {
-            circle.classList.remove('blue', 'red');
-            const newTimeoutId = setTimeout(() => this.triggerColoredCircle(circle), this.getRandomDelay(this.minDelay, this.maxDelay));
-            this.timeoutIds.push(newTimeoutId);
-        }, 3000);
+            circle.classList.add('fadeout');
+            setTimeout(() => {
+                circle.classList.remove('fadeout');
+            }, 1000);
+        }, 6000);
 
         this.timeoutIds.push(timeoutId);
     }
+
 
     updateScore() {
         const scoreElement = document.querySelector('.score-text');
@@ -57,71 +72,79 @@ class Game {
         }, 1000);
     }
 
+
     setupCircles() {
-        this.circles.forEach(circle => {
+        this.circles = shuffle(Array.from(this.circles));
+
+        let index = 0;
+        const totalCircles = this.circles.length;
+        const displayedCircles = [];
+
+        const spawnNextCircle = () => {
+            shuffle(this.circles);
+            const circle = this.circles[index];
+        
             circle.addEventListener('click', () => this.handleCircleClick(circle));
-
-            setTimeout(() => {
-                this.triggerColoredCircle(circle);
-            }, this.getRandomDelay(this.minDelay, this.maxDelay));
-        });
-    }
-
-    startDecreasingDelays() {
-        let minutesElapsed = 0;
-
-        const decreaseDelays = () => {
-            if (minutesElapsed < 1) {
-                this.minDelay = Math.max(1000, this.minDelay - 200);
-                this.maxDelay = Math.max(3000, this.maxDelay - 200);
-                minutesElapsed++;
-                setTimeout(decreaseDelays, 60000);
+            this.triggerColoredCircle(circle);
+        
+            index++;
+        
+            if (index < totalCircles) {
+                setTimeout(spawnNextCircle, this.getRandomDelay(3000, 8000));
+            } else {
+                index = 0;
+                setTimeout(spawnNextCircle, this.getRandomDelay(3000, 8000));
             }
         };
-
-        setTimeout(decreaseDelays, 60000);
+        spawnNextCircle();
     }
+
 
     handleCircleClick(circle) {
         if (this.soundEnabled) {
             const soundManager = new SoundManager(this);
             soundManager.playSound(circle);
         }
-    
+
         let points = 0;
-    
+
         if (circle.classList.contains('red')) {
-            circle.classList.remove('red');
+            circle.classList.add('clicked');
             points = 10;
+            this.remainingTime += 3;
         } else if (circle.classList.contains('blue')) {
-            circle.classList.remove('blue');
+            circle.classList.add('clicked');
             points = -10;
+            this.remainingTime -= 10;
         }
-    
+
         this.score += points;
         this.updateScore();
-    
+
         if (points !== 0) {
             const pointsElement = document.createElement('span');
             pointsElement.innerHTML = (points >= 0 ? '+' : '') + points;
-    
+
             pointsElement.classList.add('score-points');
-    
+
             if (points > 0) {
                 pointsElement.classList.add('positive-points');
             } else if (points < 0) {
                 pointsElement.classList.add('negative-points');
             }
-    
+
             circle.appendChild(pointsElement);
-    
+
             setTimeout(() => {
                 pointsElement.remove();
             }, 1000);
         }
+
+        setTimeout(() => {
+            circle.classList.remove('clicked', 'red', 'blue');
+        }, 1000);
     }
-    
-    
+
 
     endGame() {
         clearInterval(this.timerInterval);
@@ -158,8 +181,7 @@ class Game {
         });
         this.setupCircles();
         this.setupTimer();
-        this.startDecreasingDelays();
-        
+
         const gameOverPopup = document.querySelector('.game-over-popup');
         gameOverPopup.style.display = 'none';
     }

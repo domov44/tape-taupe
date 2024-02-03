@@ -62,7 +62,7 @@ body {
 .taupe {
     display: none;
     color: #000;
-    animation: moveThroughRing 2s ease-in-out forwards;
+    animation: fadein 1s ease-in-out forwards;
     border-radius: 50px 50px 0px 0px;
     width: 80px;
     height: 100px;
@@ -77,6 +77,14 @@ body {
 .blue {
     display: block;
     background-color: #ff6b01;
+}
+
+.fadeout{
+    animation: fadeout 1s ease-in-out forwards;
+}
+
+.clicked{
+    animation: clicked 1s ease-in-out forwards;
 }
 
 .timer-text,
@@ -121,19 +129,54 @@ body {
     background: red;
 }
 
-@keyframes moveThroughRing {
+@keyframes fadein {
 
-    0%,
-    100% {
+    0%{
         transform: rotate3d(-1, 0, -1, 1deg) rotateX(-30deg) translateY(40px);
         height: 0px;
         display: none;
     }
 
-    50% {
+    100% {
         transform: rotate3d(-1, 0, -1, 1deg) rotateX(-30deg) translateY(-40px);
         height: 100px;
         display: block;
+    }
+}
+
+@keyframes fadeout {
+
+    0% {
+        transform: rotate3d(-1, 0, -1, 1deg) rotateX(-30deg) translateY(-40px);
+        height: 100px;
+        display: block;
+    }
+
+    100% {
+        transform: rotate3d(-1, 0, -1, 1deg) rotateX(-30deg) translateY(40px);
+        height: 0px;
+        display: none;
+    }
+}
+
+@keyframes clicked {
+
+    0% {
+        transform: rotate3d(-1, 0, -1, 1deg) rotateX(-30deg) translateY(-40px);
+        height: 100px;
+        display: block;
+    }
+
+    10% {
+        transform: rotate3d(-1, 0, -1, 1deg) rotateX(-30deg) translateY(-10px);
+        height: 100px;
+        display: block;
+    }
+
+    100% {
+        transform: rotate3d(-1, 0, -1, 1deg) rotateX(-30deg) translateY(40px);
+        height: 0px;
+        display: none;
     }
 }
 
