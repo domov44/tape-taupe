@@ -38,18 +38,19 @@ class Game {
     triggerColoredCircle(circle) {
         const randomNumber = Math.floor(Math.random() * 10) + 1;
         const colorClass = randomNumber === 1 ? 'blue' : 'red';
-
+    
         circle.classList.add(colorClass);
-
+    
         const timeoutId = setTimeout(() => {
             circle.classList.add('fadeout');
             setTimeout(() => {
-                circle.classList.remove('fadeout');
+                circle.classList.remove('fadeout', 'red', 'blue');
             }, 1000);
         }, 6000);
-
+    
         this.timeoutIds.push(timeoutId);
     }
+    
 
 
     updateScore() {
@@ -101,49 +102,69 @@ class Game {
 
 
     handleCircleClick(circle) {
-        if (this.soundEnabled) {
-            const soundManager = new SoundManager(this);
-            soundManager.playSound(circle);
+        if (!this.soundManager) {
+            this.soundManager = new SoundManager(this);
         }
-
+    
+        if (this.soundEnabled) {
+            this.soundManager.playSound(circle);
+        }
+    
         let points = 0;
-
-        if (circle.classList.contains('red')) {
+    
+        if (circle.classList.contains('red') && !circle.classList.contains('clicked')) {
             circle.classList.add('clicked');
             points = 10;
+    
+            // Si la taupe rouge réapparaît et est reclicquée, ajoute 20 points au lieu de 10
+            if (circle.classList.contains('reappeared')) {
+                points *= 2;
+            }
+    
             this.remainingTime += 3;
         } else if (circle.classList.contains('blue')) {
             circle.classList.add('clicked');
             points = -10;
             this.remainingTime -= 10;
         }
-
+    
+        // Ajoute la classe 'reappeared' pour marquer la taupe comme réapparue
+        if (circle.classList.contains('red')) {
+            circle.classList.add('reappeared');
+        }
+    
         this.score += points;
         this.updateScore();
-
+    
         if (points !== 0) {
             const pointsElement = document.createElement('span');
             pointsElement.innerHTML = (points >= 0 ? '+' : '') + points;
-
+    
             pointsElement.classList.add('score-points');
-
+    
             if (points > 0) {
                 pointsElement.classList.add('positive-points');
             } else if (points < 0) {
                 pointsElement.classList.add('negative-points');
             }
-
+    
             circle.appendChild(pointsElement);
-
+    
             setTimeout(() => {
                 pointsElement.remove();
             }, 1000);
         }
-
+    
         setTimeout(() => {
             circle.classList.remove('clicked', 'red', 'blue');
+            
+            // Retire la classe 'reappeared' après un certain délai
+            if (circle.classList.contains('reappeared')) {
+                circle.classList.remove('reappeared');
+            }
         }, 1000);
     }
+    
 
 
     endGame() {
@@ -175,9 +196,6 @@ class Game {
         this.updateTimer();
         this.circles.forEach(circle => {
             circle.classList.remove('red', 'blue');
-        });
-        this.circles.forEach(circle => {
-            circle.removeEventListener('click', () => this.handleCircleClick(circle));
         });
         this.setupCircles();
         this.setupTimer();
